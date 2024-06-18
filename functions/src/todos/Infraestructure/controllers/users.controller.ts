@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import { Request, Response } from 'express';
-import { GetUserUseCase } from '../../Application/GetUserUseCase';
+import { GetUserUseCase } from '../../../todos/Application/GetUserUseCase';
 
 export class UsersController {
   private _userUseCase: GetUserUseCase;
