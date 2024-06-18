@@ -1,12 +1,15 @@
 import { Router } from 'express';
 import { UsersController } from '../controllers/users.controller';
+import { GetUserUseCase } from '../../Application/GetUserUseCase';
 
 // eslint-disable-next-line new-cap
 const routesUser = Router();
 
-const userCtrl: UsersController = new UsersController();
+const userUseCase: GetUserUseCase = new GetUserUseCase();
+const userCtrl: UsersController = new UsersController(userUseCase);
 
-routesUser.get(`/user`, userCtrl.getCtrl);
+// routesUser.get(`/user`, userCtrl.getCtrl);
+routesUser.get(`/user`, userCtrl.getCtrl.bind(userCtrl));
 routesUser.post(`/user`, userCtrl.insertCtrl);
 
 export default routesUser;
