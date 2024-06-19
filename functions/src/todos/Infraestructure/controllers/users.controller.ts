@@ -7,7 +7,6 @@ export class UsersController {
 
   constructor(userUseCase: GetUserUseCase) {
     this._userUseCase = userUseCase;
-    console.log('userUseCase', userUseCase);
   }
 
   public async getCtrl({ query }: Request, res: Response) {

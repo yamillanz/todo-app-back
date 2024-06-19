@@ -7,7 +7,6 @@ export class TodoController {
 
   constructor(userUseCase: TodoUseCase) {
     this.todoUseCase = userUseCase;
-    console.log('userUseCase', userUseCase);
   }
 
   public async getCtrl({ params }: Request, res: Response) {
@@ -15,6 +14,11 @@ export class TodoController {
 
     const user = this.todoUseCase.getOne(`${idTodo}`);
     res.send({ message: 'Todo getCtrl', user });
+  }
+
+  public async getAllCtrl(req: Request, res: Response) {
+    const todos = await this.todoUseCase.getAllTodo();
+    res.send({ data: todos });
   }
 
   public async insertCtrl({ body }: Request, res: Response) {
