@@ -10,18 +10,22 @@ export class TodoController {
   }
 
   public async getCtrl({ params }: Request, res: Response) {
-    const { idTodo = '' } = params;
+    const { taskId = '' } = params;
 
-    const user = this.todoUseCase.getOne(`${idTodo}`);
+    const user = this.todoUseCase.getOne(`${taskId}`);
     res.send({ message: 'Todo getCtrl', user });
   }
 
   public async getAllCtrl(req: Request, res: Response) {
     const todos = await this.todoUseCase.getAllTodo();
-    res.send({ data: todos });
+    res.send(todos);
   }
 
-  public async insertCtrl({ body }: Request, res: Response) {
+  public async saveCtrl({ body }: Request, res: Response) {
     res.send({ body });
+  }
+
+  public async deleteCtrl({ params }: Request, res: Response) {
+    res.send({ params });
   }
 }

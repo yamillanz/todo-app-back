@@ -12,8 +12,10 @@ const todoUseCase: TodoUseCase = new TodoUseCase(todoFirebaseRepository);
 // const todoUseCase: TodoUseCase = new TodoUseCase(respoMock);
 const todoCtrl: TodoController = new TodoController(todoUseCase);
 
-routesTodo.get(`/todo/:idTodo`, todoCtrl.getCtrl.bind(todoCtrl));
-routesTodo.get(`/todo`, todoCtrl.getAllCtrl.bind(todoCtrl));
-routesTodo.post(`/todo`, todoCtrl.insertCtrl);
+routesTodo.get(`/tasks/:taskId`, todoCtrl.getCtrl.bind(todoCtrl));
+routesTodo.get(`/tasks`, todoCtrl.getAllCtrl.bind(todoCtrl));
+routesTodo.post(`/tasks`, todoCtrl.saveCtrl.bind(todoCtrl));
+routesTodo.put(`/tasks/:taskId`, todoCtrl.saveCtrl.bind(todoCtrl));
+routesTodo.delete(`/tasks/:taskId`, todoCtrl.deleteCtrl.bind(todoCtrl));
 
 export default routesTodo;
