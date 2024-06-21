@@ -26,7 +26,15 @@ export class FireBaseTodoRepository implements TodoRepository {
   }
 
   async save(todo: Todo): Promise<Todo> {
-    const docRef = await this.db.collection('todo').add(todo);
-    return { ...todo, uuid: docRef.id };
+    const docRef = this.db.collection('todo').doc(todo.uuid);
+    const doc = await docRef.get();
+    if (doc.exists) {
+      // await docRef.update(Object.assign({}, todo) as { [x: string]: any });
+      await docRef.update({ ...todo });
+    } else {
+      const newDocRef = await this.db.collection('todo').add(todo);
+      todo.uuid = newDocRef.id;
+    }
+    return todo;
   }
 }

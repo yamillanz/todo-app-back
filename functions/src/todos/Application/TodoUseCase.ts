@@ -16,7 +16,17 @@ export class TodoUseCase {
     console.log('getOne', id);
   }
 
-  saveTodo(todo: unknown): void {
+  saveTodo(todo: Todo): void {
     console.log('saveTodo', todo);
+    todo.uuid = Math.random().toString(36).substring(2, 12);
+    this.todoRepository.save(todo);
+  }
+
+  updateTodo(taskId: string, todo: Todo): void {
+    console.log('updateTodo', taskId, todo);
+  }
+
+  deleteTodo(): void {
+    console.log('deleteTodo');
   }
 }
