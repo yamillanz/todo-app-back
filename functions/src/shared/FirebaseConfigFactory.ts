@@ -9,7 +9,7 @@ import * as admin from 'firebase-admin';
 // appId: "1:180845934620:web:49ac1e377113ee8c82c7d9"
 
 // const serviceAccount = require('../../config/todo_app.json');
-import * as serviceAccount from '../../config/todo_app.json';
+import * as serviceAccount from '../config/todo_app.json';
 export class FirebaseConfigFactory {
   static create() {
     // const serviceAccount = {
