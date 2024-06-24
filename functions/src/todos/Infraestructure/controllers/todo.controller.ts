@@ -22,7 +22,22 @@ export class TodoController {
   }
 
   public async saveCtrl({ body }: Request, res: Response) {
-    res.send({ body });
+    // res.send({ body });
+    const newTodo = await this.todoUseCase.saveTodo({
+      title: body.title,
+      description: body.description,
+      completed: body.completed,
+    });
+    res.send(newTodo);
+  }
+
+  public async updateCtrl({ body, params }: Request, res: Response) {
+    const updateTodo = await this.todoUseCase.updateTodo(params.taskId, {
+      title: body.title,
+      description: body.description,
+      completed: body.completed,
+    });
+    res.send(updateTodo);
   }
 
   public async deleteCtrl({ params }: Request, res: Response) {
