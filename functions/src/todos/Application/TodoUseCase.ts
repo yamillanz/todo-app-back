@@ -1,5 +1,6 @@
 import { Todo } from '../Domain/Todo';
 import { TodoRepository } from '../Domain/TodoRespository';
+import { TodoDto } from '../Infraestructure/TodoDto';
 
 /* eslint-disable require-jsdoc */
 export class TodoUseCase {
@@ -16,14 +17,17 @@ export class TodoUseCase {
     console.log('getOne', id);
   }
 
-  saveTodo(todo: Todo): void {
+  saveTodo(todo: TodoDto): Promise<Todo> {
     console.log('saveTodo', todo);
     todo.uuid = Math.random().toString(36).substring(2, 12);
-    this.todoRepository.save(todo);
+    const newTodo = new Todo(todo.uuid, todo.title ?? '', todo.description ?? '', todo.completed ?? false);
+    return this.todoRepository.save(newTodo);
   }
 
-  updateTodo(taskId: string, todo: Todo): void {
+  updateTodo(taskId: string, todo: TodoDto): Promise<Todo> {
     console.log('updateTodo', taskId, todo);
+    const updateTodo = new Todo(taskId, todo.title ?? '', todo.description ?? '', todo.completed ?? false);
+    return this.todoRepository.save(updateTodo);
   }
 
   deleteTodo(): void {
