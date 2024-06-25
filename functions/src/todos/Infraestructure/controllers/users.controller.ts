@@ -3,16 +3,16 @@ import { Request, Response } from 'express';
 import { GetUserUseCase } from '../../../todos/Application/GetUserUseCase';
 
 export class UsersController {
-  private _userUseCase: GetUserUseCase;
+  private userUseCase: GetUserUseCase;
 
   constructor(userUseCase: GetUserUseCase) {
-    this._userUseCase = userUseCase;
+    this.userUseCase = userUseCase;
   }
 
   public async getCtrl({ query }: Request, res: Response) {
     const { uuid = '' } = query;
     // const user = await this.userUseCase.getDetailUSer(`${uuid}`);
-    const user = this._userUseCase.getUserById(`${uuid}`);
+    const user = this.userUseCase.getUserById(`${uuid}`);
     res.send({ message: 'getCtrl', user });
   }
 
