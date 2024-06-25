@@ -41,6 +41,7 @@ export class TodoController {
   }
 
   public async deleteCtrl({ params }: Request, res: Response) {
-    res.send({ params });
+    this.todoUseCase.deleteTodo(params.taskId);
+    res.send({ message: 'DELETED!' });
   }
 }

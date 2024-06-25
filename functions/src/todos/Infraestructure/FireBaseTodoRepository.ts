@@ -27,9 +27,9 @@ export class FireBaseTodoRepository implements TodoRepository {
 
   async save(todo: Todo): Promise<Todo> {
     const querySnapshot = await this.db.collection('todo').where('uuid', '==', todo.uuid).get();
-    const docRef = querySnapshot.docs[0].ref;
-    const doc = await docRef.get();
-    if (doc.exists) {
+    const docRef = querySnapshot.docs[0]?.ref;
+    const doc = await docRef?.get();
+    if (doc && doc.exists) {
       // await docRef.update(Object.assign({}, todo) as { [x: string]: any });
       await docRef.update(todo.toPrimitivies());
     } else {
@@ -37,5 +37,12 @@ export class FireBaseTodoRepository implements TodoRepository {
       // todo.uuid = newDocRef.id;
     }
     return todo;
+  }
+
+  async delete(idTodo: string): Promise<void> {
+    const querySnapshot = await this.db.collection('todo').where('uuid', '==', idTodo).get();
+    querySnapshot.forEach(async (doc) => {
+      await doc.ref.delete();
+    });
   }
 }

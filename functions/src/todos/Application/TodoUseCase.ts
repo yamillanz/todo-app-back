@@ -30,7 +30,8 @@ export class TodoUseCase {
     return this.todoRepository.save(updateTodo);
   }
 
-  deleteTodo(): void {
-    console.log('deleteTodo');
+  deleteTodo(taskId: string): void {
+    console.log('deleteTodo', taskId);
+    this.todoRepository.delete(taskId);
   }
 }
