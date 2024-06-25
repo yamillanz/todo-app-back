@@ -1,7 +1,12 @@
+import { UserRepository } from '../Domain/UserRepository';
+
 /* eslint-disable require-jsdoc */
 export class GetUserUseCase {
-  getUserById(userId: string) {
-    return { userId };
-    // Aquí puedes implementar la lógica para obtener un usuario por su ID
+  repository: UserRepository;
+  constructor(repository: UserRepository) {
+    this.repository = repository;
+  }
+  async getUserById(idUser: string) {
+    return await this.repository.getOne(idUser);
   }
 }
