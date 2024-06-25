@@ -3,10 +3,16 @@ export class Todo {
   uuid: string;
   title: string;
   description: string;
-  createdAt?: Date;
+  createdAt?: string;
   completed: boolean;
 
-  constructor(uuid: string, title: string, description: string, completed: boolean, createdAt: Date = new Date()) {
+  constructor(
+    uuid: string,
+    title: string,
+    description: string,
+    completed: boolean,
+    createdAt: string = new Date().toISOString()
+  ) {
     this.uuid = uuid;
     this.title = title;
     this.description = description;
@@ -23,8 +29,4 @@ export class Todo {
       createdAt: this.createdAt,
     };
   }
-
-  // fromPrimitivies() : Todo{
-  //   return ne
-  // }
 }
