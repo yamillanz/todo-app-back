@@ -1,21 +1,32 @@
-import * as admin from 'firebase-admin';
 /* eslint-disable require-jsdoc */
+// import * as admin from 'firebase-admin';
 
-// const serviceAccount = require('../../config/todo_app.json');
+// import * as serviceAccount from '../config/todo_app.json';
+// export class FirebaseConfigFactory {
+//   static create() {
+//     admin.initializeApp({
+//       credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+//       databaseURL: process.env.FIREBASE_DATABASE_URL,
+//     });
+
+//     return admin;
+//   }
+// }
+
+import * as admin from 'firebase-admin';
 import * as serviceAccount from '../config/todo_app.json';
+
 export class FirebaseConfigFactory {
+  private static instance: admin.app.App | null = null;
+
   static create() {
-    // const serviceAccount = {
-    //   projectId: process.env.FIREBASE_PROJECT_ID || 'todo-app-c9ea4',
-    //   privateKey: 'AIzaSyAl_96zKawtX1mILmC2axYgTr_MksLDx5Y',
-    //   clientEmail: 'yamil.w.lanz@gmail.com',
-    // };
+    if (!FirebaseConfigFactory.instance) {
+      FirebaseConfigFactory.instance = admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+        databaseURL: process.env.FIREBASE_DATABASE_URL,
+      });
+    }
 
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-      databaseURL: process.env.FIREBASE_DATABASE_URL,
-    });
-
-    return admin;
+    return FirebaseConfigFactory.instance;
   }
 }

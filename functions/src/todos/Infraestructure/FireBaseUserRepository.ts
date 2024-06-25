@@ -12,7 +12,10 @@ export class FireBaseUserRepository implements UserRepository {
   }
 
   async getOne(idUser: string): Promise<User> {
-    const doc = await this.db.collection('user').doc(idUser).get();
+    // const doc = await this.db.collection('user').doc(idUser).get();
+    const querySnapshot = await this.db.collection('user').where('email', '==', idUser).get();
+    const docRef = querySnapshot.docs[0]?.ref;
+    const doc = await docRef?.get();
     if (!doc.exists) {
       throw new Error('No such document!');
     } else {
