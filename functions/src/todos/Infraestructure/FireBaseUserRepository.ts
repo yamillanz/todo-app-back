@@ -16,8 +16,9 @@ export class FireBaseUserRepository implements UserRepository {
     const querySnapshot = await this.db.collection('user').where('email', '==', idUser).get();
     const docRef = querySnapshot.docs[0]?.ref;
     const doc = await docRef?.get();
-    if (!doc.exists) {
-      throw new Error('No such document!');
+    if (!doc?.exists) {
+      // throw new Error('No document!');
+      return {} as User;
     } else {
       return doc.data() as User;
     }

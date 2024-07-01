@@ -13,7 +13,7 @@ export class FireBaseTodoRepository implements TodoRepository {
 
   async getOne(idTodo: string): Promise<Todo> {
     const doc = await this.db.collection('todo').doc(idTodo).get();
-    if (!doc.exists) {
+    if (!doc?.exists) {
       throw new Error('No such document!');
     } else {
       return doc.data() as Todo;
