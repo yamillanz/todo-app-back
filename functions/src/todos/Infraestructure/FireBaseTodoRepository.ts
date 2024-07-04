@@ -10,6 +10,10 @@ export class FireBaseTodoRepository implements TodoRepository {
   constructor() {
     this.db = FirebaseConfigFactory.create().firestore();
   }
+  async getAllByUser(idUser: string): Promise<Todo[]> {
+    const snapshot = await this.db.collection('todo').where('userId', '==', idUser).get();
+    return snapshot.docs.map((doc) => doc.data() as Todo);
+  }
 
   async getOne(idTodo: string): Promise<Todo> {
     const doc = await this.db.collection('todo').doc(idTodo).get();

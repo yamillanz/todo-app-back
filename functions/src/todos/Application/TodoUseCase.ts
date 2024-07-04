@@ -5,12 +5,18 @@ import { TodoDto } from '../Infraestructure/TodoDto';
 /* eslint-disable require-jsdoc */
 export class TodoUseCase {
   private todoRepository: TodoRepository;
+
   constructor(todoRepository: TodoRepository) {
     this.todoRepository = todoRepository;
   }
   async getAllTodo(): Promise<Todo[]> {
     console.log('getAllTodo');
     return await this.todoRepository.getAll();
+  }
+
+  async getAllTodoByUser(idUser: string): Promise<Todo[]> {
+    console.log('getAllTodoByUser', idUser);
+    return await this.todoRepository.getAllByUser(idUser);
   }
 
   getOne(id: string): void {
