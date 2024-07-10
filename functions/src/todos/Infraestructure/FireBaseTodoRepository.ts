@@ -34,7 +34,6 @@ export class FireBaseTodoRepository implements TodoRepository {
     const docRef = querySnapshot.docs[0]?.ref;
     const doc = await docRef?.get();
     if (doc && doc.exists) {
-      // await docRef.update(Object.assign({}, todo) as { [x: string]: any });
       await docRef.update(todo.toPrimitivies());
     } else {
       await this.db.collection('todo').add(todo.toPrimitivies());

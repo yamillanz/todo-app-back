@@ -7,19 +7,12 @@ export class Todo {
   completed: boolean;
   userId?: string;
 
-  constructor(
-    uuid: string,
-    title: string,
-    description: string,
-    completed: boolean,
-    createdAt: string = new Date().toISOString(),
-    userId = ''
-  ) {
+  constructor(uuid: string, title: string, description: string, completed: boolean, createdAt = '', userId = '') {
     this.uuid = uuid;
     this.title = title;
     this.description = description;
     this.completed = completed;
-    this.createdAt = createdAt;
+    this.createdAt = !createdAt || createdAt === '' ? new Date().toISOString() : createdAt;
     this.userId = userId;
   }
 

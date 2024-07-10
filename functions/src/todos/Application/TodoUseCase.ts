@@ -24,15 +24,28 @@ export class TodoUseCase {
   }
 
   saveTodo(todo: TodoDto): Promise<Todo> {
-    console.log('saveTodo', todo);
     todo.uuid = Math.random().toString(36).substring(2, 12);
-    const newTodo = new Todo(todo.uuid, todo.title ?? '', todo.description ?? '', todo.completed ?? false);
+    const newTodo = new Todo(
+      todo.uuid,
+      todo.title ?? '',
+      todo.description ?? '',
+      todo.completed ?? false,
+      todo.createdAt ?? '',
+      todo.userId ?? ''
+    );
     return this.todoRepository.save(newTodo);
   }
 
   updateTodo(taskId: string, todo: TodoDto): Promise<Todo> {
     console.log('updateTodo', taskId, todo);
-    const updateTodo = new Todo(taskId, todo.title ?? '', todo.description ?? '', todo.completed ?? false);
+    const updateTodo = new Todo(
+      taskId,
+      todo.title ?? '',
+      todo.description ?? '',
+      todo.completed ?? false,
+      todo.createdAt ?? '',
+      todo.userId ?? ''
+    );
     return this.todoRepository.save(updateTodo);
   }
 

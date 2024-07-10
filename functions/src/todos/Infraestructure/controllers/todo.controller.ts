@@ -27,11 +27,11 @@ export class TodoController {
   }
 
   public async saveCtrl({ body }: Request, res: Response) {
-    // res.send({ body });
     const newTodo = await this.todoUseCase.saveTodo({
       title: body.title,
       description: body.description,
       completed: body.completed,
+      userId: body.userId,
     });
     res.send(newTodo);
   }
@@ -41,6 +41,8 @@ export class TodoController {
       title: body.title,
       description: body.description,
       completed: body.completed,
+      createdAt: body.createdAt,
+      userId: body.userId,
     });
     res.send(updateTodo);
   }
