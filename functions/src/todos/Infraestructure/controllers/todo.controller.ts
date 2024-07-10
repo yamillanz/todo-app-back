@@ -26,6 +26,11 @@ export class TodoController {
     res.send(todos);
   }
 
+  public async getAllByUserHistoryCtrl({ params }: Request, res: Response) {
+    const todos = await this.todoUseCase.getAllTodoByUserDone(params.email);
+    res.send(todos);
+  }
+
   public async saveCtrl({ body }: Request, res: Response) {
     const newTodo = await this.todoUseCase.saveTodo({
       title: body.title,

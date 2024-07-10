@@ -18,6 +18,9 @@ export class TodoUseCase {
     console.log('getAllTodoByUser', idUser);
     return await this.todoRepository.getAllByUser(idUser);
   }
+  async getAllTodoByUserDone(idUser: string): Promise<Todo[]> {
+    return await this.todoRepository.getAllByUserHistory(idUser);
+  }
 
   getOne(id: string): void {
     console.log('getOne', id);

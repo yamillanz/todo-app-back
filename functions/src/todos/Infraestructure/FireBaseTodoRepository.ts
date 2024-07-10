@@ -11,6 +11,15 @@ export class FireBaseTodoRepository implements TodoRepository {
     this.db = FirebaseConfigFactory.create().firestore();
   }
   async getAllByUser(idUser: string): Promise<Todo[]> {
+    const snapshot = await this.db
+      .collection('todo')
+      .where('userId', '==', idUser)
+      .where('complete', '==', false)
+      .get();
+    return snapshot.docs.map((doc) => doc.data() as Todo);
+  }
+
+  async getAllByUserHistory(idUser: string): Promise<Todo[]> {
     const snapshot = await this.db.collection('todo').where('userId', '==', idUser).get();
     return snapshot.docs.map((doc) => doc.data() as Todo);
   }
