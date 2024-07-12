@@ -14,13 +14,18 @@ export class FireBaseTodoRepository implements TodoRepository {
     const snapshot = await this.db
       .collection('todo')
       .where('userId', '==', idUser)
-      .where('complete', '==', false)
+      .where('completed', '==', false)
       .get();
     return snapshot.docs.map((doc) => doc.data() as Todo);
   }
 
   async getAllByUserHistory(idUser: string): Promise<Todo[]> {
-    const snapshot = await this.db.collection('todo').where('userId', '==', idUser).get();
+    // const snapshot = await this.db.collection('todo').where('userId', '==', idUser).get();
+    const snapshot = await this.db
+      .collection('todo')
+      .where('userId', '==', idUser)
+      .where('completed', '==', true)
+      .get();
     return snapshot.docs.map((doc) => doc.data() as Todo);
   }
 
