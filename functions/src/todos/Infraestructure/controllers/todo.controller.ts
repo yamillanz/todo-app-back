@@ -21,12 +21,22 @@ export class TodoController {
     res.send(todos);
   }
 
+  public async getAllByUserCtrl({ params }: Request, res: Response) {
+    const todos = await this.todoUseCase.getAllTodoByUser(params.email);
+    res.send(todos);
+  }
+
+  public async getAllByUserHistoryCtrl({ params }: Request, res: Response) {
+    const todos = await this.todoUseCase.getAllTodoByUserDone(params.email);
+    res.send(todos);
+  }
+
   public async saveCtrl({ body }: Request, res: Response) {
-    // res.send({ body });
     const newTodo = await this.todoUseCase.saveTodo({
       title: body.title,
       description: body.description,
       completed: body.completed,
+      userId: body.userId,
     });
     res.send(newTodo);
   }
@@ -36,6 +46,8 @@ export class TodoController {
       title: body.title,
       description: body.description,
       completed: body.completed,
+      createdAt: body.createdAt,
+      userId: body.userId,
     });
     res.send(updateTodo);
   }

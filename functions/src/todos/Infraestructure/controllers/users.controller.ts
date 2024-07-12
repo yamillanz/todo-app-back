@@ -14,13 +14,11 @@ export class UsersController {
 
   public async getCtrl({ params }: Request, res: Response) {
     const { email = '' } = params;
-    // const user = await this.userUseCase.getDetailUSer(`${email}`);
     const user = await this.userUseCase.getUserById(`${email}`);
     res.send(user ?? {});
   }
 
   public async insertCtrl({ body }: Request, res: Response) {
-    // const user = await this.userUseCase.getDetailUSer(`${email}`);
     const user = await this.saveUserUseCase.saveUser({
       email: body.email,
     });

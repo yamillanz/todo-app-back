@@ -16,6 +16,9 @@
 import * as admin from 'firebase-admin';
 import * as serviceAccount from '../config/todo_app.json';
 
+import * as admin from 'firebase-admin';
+import * as serviceAccount from '../account/todo_app.json';
+
 export class FirebaseConfigFactory {
   private static instance: admin.app.App | null = null;
 
