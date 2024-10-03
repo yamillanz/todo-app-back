@@ -47,6 +47,7 @@ export class TodoController {
       description: body.description,
       completed: body.completed,
       createdAt: body.createdAt,
+      completedAt: body.completedAt,
       userId: body.userId,
     });
     res.send(updateTodo);

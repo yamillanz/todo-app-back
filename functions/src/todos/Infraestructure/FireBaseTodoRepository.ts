@@ -10,23 +10,29 @@ export class FireBaseTodoRepository implements TodoRepository {
   constructor() {
     this.db = FirebaseConfigFactory.create().firestore();
   }
+
   async getAllByUser(idUser: string): Promise<Todo[]> {
     const snapshot = await this.db
       .collection('todo')
       .where('userId', '==', idUser)
       .where('completed', '==', false)
+      // .orderBy('createdAt', 'asc')
       .get();
-    return snapshot.docs.map((doc) => doc.data() as Todo);
+    return snapshot.docs
+      .map((doc) => doc.data() as Todo)
+      .sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
   }
 
   async getAllByUserHistory(idUser: string): Promise<Todo[]> {
-    // const snapshot = await this.db.collection('todo').where('userId', '==', idUser).get();
     const snapshot = await this.db
       .collection('todo')
       .where('userId', '==', idUser)
       .where('completed', '==', true)
+      // .orderBy('createdAt', 'asc')
       .get();
-    return snapshot.docs.map((doc) => doc.data() as Todo);
+    return snapshot.docs
+      .map((doc) => doc.data() as Todo)
+      .sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
   }
 
   async getOne(idTodo: string): Promise<Todo> {

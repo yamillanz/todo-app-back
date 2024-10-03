@@ -6,13 +6,23 @@ export class Todo {
   createdAt?: string;
   completed: boolean;
   userId?: string;
+  completedAt?: string;
 
-  constructor(uuid: string, title: string, description: string, completed: boolean, createdAt = '', userId = '') {
+  constructor(
+    uuid: string,
+    title: string,
+    description: string,
+    completed: boolean,
+    createdAt = '',
+    userId = '',
+    completedAt = ''
+  ) {
     this.uuid = uuid;
     this.title = title;
     this.description = description;
     this.completed = completed;
     this.createdAt = !createdAt || createdAt === '' ? new Date().toISOString() : createdAt;
+    this.completedAt = completedAt;
     this.userId = userId;
   }
 
@@ -23,6 +33,7 @@ export class Todo {
       description: this.description,
       completed: this.completed,
       createdAt: this.createdAt,
+      completedAt: this.completedAt,
       userId: this.userId,
     };
   }

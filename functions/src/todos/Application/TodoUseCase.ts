@@ -47,7 +47,8 @@ export class TodoUseCase {
       todo.description ?? '',
       todo.completed ?? false,
       todo.createdAt ?? '',
-      todo.userId ?? ''
+      todo.userId ?? '',
+      todo.completedAt ?? ''
     );
     return this.todoRepository.save(updateTodo);
   }
