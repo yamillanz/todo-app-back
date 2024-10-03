@@ -11,7 +11,7 @@ const userGetUseCase: GetUserUseCase = new GetUserUseCase(new FireBaseUserReposi
 const userPostUseCase: PostUserUseCase = new PostUserUseCase(new FireBaseUserRepository());
 const userCtrl: UsersController = new UsersController(userGetUseCase, userPostUseCase);
 
-routesUser.get(`/user/:email`, userCtrl.getCtrl.bind(userCtrl));
-routesUser.post(`/user`, userCtrl.insertCtrl.bind(userCtrl));
+routesUser.get(`/users/:email`, userCtrl.getCtrl.bind(userCtrl));
+routesUser.post(`/users`, userCtrl.insertCtrl.bind(userCtrl));
 
 export default routesUser;
