@@ -1,6 +1,6 @@
 module.exports = {
   parserOptions: {
-    project: ['./functions/tsconfig.json', './functions/tsconfig.dev.json'],
+    project: ['./tsconfig.json', './tsconfig.dev.json'],
     sourceType: 'module',
   },
   root: true,
@@ -21,6 +21,9 @@ module.exports = {
     '/lib/**/*', // Ignore built files.
     '/generated/**/*', // Ignore generated files.
     '**/*.eslintrc.js', // Exclude this file from ESLint's list of included files.
+    'jest.config.js',
+    '/jest.config.js',
+    '/tests/**/*',
   ],
   plugins: ['@typescript-eslint', 'import'],
   rules: {

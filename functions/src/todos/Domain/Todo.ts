@@ -5,19 +5,25 @@ export class Todo {
   description: string;
   createdAt?: string;
   completed: boolean;
+  userId?: string;
+  completedAt?: string;
 
   constructor(
     uuid: string,
     title: string,
     description: string,
     completed: boolean,
-    createdAt: string = new Date().toISOString()
+    createdAt = '',
+    userId = '',
+    completedAt = ''
   ) {
     this.uuid = uuid;
     this.title = title;
     this.description = description;
     this.completed = completed;
-    this.createdAt = createdAt;
+    this.createdAt = !createdAt || createdAt === '' ? new Date().toISOString() : createdAt;
+    this.completedAt = completedAt;
+    this.userId = userId;
   }
 
   toPrimitivies() {
@@ -27,6 +33,8 @@ export class Todo {
       description: this.description,
       completed: this.completed,
       createdAt: this.createdAt,
+      completedAt: this.completedAt,
+      userId: this.userId,
     };
   }
 }
