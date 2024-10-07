@@ -21,6 +21,9 @@ module.exports = {
     '/lib/**/*', // Ignore built files.
     '/generated/**/*', // Ignore generated files.
     '**/*.eslintrc.js', // Exclude this file from ESLint's list of included files.
+    'jest.config.js',
+    '/jest.config.js',
+    '/tests/**/*',
   ],
   plugins: ['@typescript-eslint', 'import'],
   rules: {
