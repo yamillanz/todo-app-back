@@ -5,9 +5,9 @@ export class Todo {
     public title: string,
     public description: string,
     public completed: boolean,
-    public createdAt: string = new Date().toISOString(),
+    public createdAt: string,
     public userId?: string,
-    public completedAt?: string
+    public completedAt?: string,
   ) {}
 
   toPrimitivies() {

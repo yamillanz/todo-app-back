@@ -36,7 +36,10 @@ export class FireBaseTodoRepository implements TodoRepository {
   }
 
   async getOne(idTodo: string): Promise<Todo | null> {
-    const doc = await this.db.collection('todo').doc(idTodo).get();
+    // const doc = await this.db.collection('todo').doc(idTodo).get();
+    const querySnapshot = await this.db.collection('todo').where('uuid', '==', idTodo).get();
+    const docRef = querySnapshot.docs[0]?.ref;
+    const doc = await docRef?.get();
     if (!doc?.exists) {
       return null;
     }
