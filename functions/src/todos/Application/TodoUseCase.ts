@@ -1,3 +1,4 @@
+import { NotFoundError } from '../../shared/NotFoundError';
 import { Todo } from '../Domain/Todo';
 import { TodoRepository } from '../Domain/TodoRespository';
 import { TodoDto } from '../Infraestructure/TodoDto';
@@ -9,6 +10,7 @@ export class TodoUseCase {
   constructor(todoRepository: TodoRepository) {
     this.todoRepository = todoRepository;
   }
+
   async getAllTodo(): Promise<Todo[]> {
     console.log('getAllTodo');
     return await this.todoRepository.getAll();
@@ -18,12 +20,21 @@ export class TodoUseCase {
     console.log('getAllTodoByUser', idUser);
     return await this.todoRepository.getAllByUser(idUser);
   }
+
   async getAllTodoByUserDone(idUser: string): Promise<Todo[]> {
     return await this.todoRepository.getAllByUserHistory(idUser);
   }
 
   getOne(id: string): void {
     console.log('getOne', id);
+  }
+
+  async getTaskById(taskId: string): Promise<Todo> {
+    const task = await this.todoRepository.getOne(taskId);
+    if (!task) {
+      throw new NotFoundError(`Task with ID ${taskId} not found`);
+    }
+    return task;
   }
 
   saveTodo(todo: TodoDto): Promise<Todo> {
@@ -39,8 +50,13 @@ export class TodoUseCase {
     return this.todoRepository.save(newTodo);
   }
 
-  updateTodo(taskId: string, todo: TodoDto): Promise<Todo> {
+  async updateTodo(taskId: string, todo: TodoDto): Promise<Todo> {
     console.log('updateTodo', taskId, todo);
+    const existingTodo = await this.todoRepository.getOne(taskId);
+    if (!existingTodo) {
+      console.log('Task with ID not found');
+      throw new NotFoundError(`Task with ID ${taskId} not found`);
+    }
     const updateTodo = new Todo(
       taskId,
       todo.title ?? '',

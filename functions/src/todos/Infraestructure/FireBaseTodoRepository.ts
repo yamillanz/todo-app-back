@@ -35,13 +35,12 @@ export class FireBaseTodoRepository implements TodoRepository {
       .sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
   }
 
-  async getOne(idTodo: string): Promise<Todo> {
+  async getOne(idTodo: string): Promise<Todo | null> {
     const doc = await this.db.collection('todo').doc(idTodo).get();
     if (!doc?.exists) {
-      throw new Error('No such document!');
-    } else {
-      return doc.data() as Todo;
+      return null;
     }
+    return doc.data() as Todo;
   }
 
   async getAll(): Promise<Todo[]> {

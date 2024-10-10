@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import { Request, Response } from 'express';
 import { TodoUseCase } from '../../Application/TodoUseCase';
+import { NotFoundError } from '../../../shared/NotFoundError';
 
 export class TodoController {
   private todoUseCase: TodoUseCase;
@@ -42,15 +43,24 @@ export class TodoController {
   }
 
   public async updateCtrl({ body, params }: Request, res: Response) {
-    const updateTodo = await this.todoUseCase.updateTodo(params.taskId, {
-      title: body.title,
-      description: body.description,
-      completed: body.completed,
-      createdAt: body.createdAt,
-      completedAt: body.completedAt,
-      userId: body.userId,
-    });
-    res.send(updateTodo);
+    try {
+      const updateTodo = await this.todoUseCase.updateTodo(params.taskId, {
+        title: body.title,
+        description: body.description,
+        completed: body.completed,
+        createdAt: body.createdAt,
+        completedAt: body.completedAt,
+        userId: body.userId,
+      });
+      res.send(updateTodo);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        res.status(404).send({ error: 'Not found' });
+      } else {
+        console.log(err);
+        res.status(500).send({ error: 'An error occurred while updating the todo' });
+      }
+    }
   }
 
   public async deleteCtrl({ params }: Request, res: Response) {
