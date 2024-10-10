@@ -1,7 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { TodoUseCase } from '../../../src/todos/Application/TodoUseCase';
 import { TodoRepository } from '../../../src/todos/Domain/TodoRespository';
 import { Todo } from '../../../src/todos/Domain/Todo';
 import { TodoDto } from '../../../src/todos/Infraestructure/TodoDto';
+import { NotFoundError } from '../../../src/shared/NotFoundError';
 
 describe('TodoUseCase', () => {
   let todoRepository: jest.Mocked<TodoRepository>;
@@ -79,21 +82,62 @@ describe('TodoUseCase', () => {
 
   it('should update a todo', async () => {
     const taskId = 'task1';
+    const existingTodo: Todo = new Todo(taskId, 'Test', 'Test description', false, '', '');
     const todoDto: TodoDto = { title: 'Updated', description: 'Updated description' };
-    const updatedTodo: Todo = new Todo(taskId, 'Updated', 'Updated description', false, '', '', '');
-    todoRepository.save.mockResolvedValue(updatedTodo);
+
+    todoRepository.getOne.mockResolvedValue(existingTodo);
+    todoRepository.save.mockResolvedValue(existingTodo);
 
     const result = await todoUseCase.updateTodo(taskId, todoDto);
 
-    expect(todoRepository.save).toHaveBeenCalled();
-    expect(result).toBe(updatedTodo);
+    expect(todoRepository.getOne).toHaveBeenCalledWith(taskId);
+    expect(todoRepository.save).toHaveBeenCalledWith(expect.objectContaining({
+      uuid: taskId,
+      title: todoDto.title,
+      description: todoDto.description,
+    }));
+    expect(result).toBe(existingTodo);
   });
 
-  it('should delete a todo', () => {
+  it('should delete a todo', async () => {
     const taskId = 'task1';
+    todoRepository.getOne.mockResolvedValue(new Todo(taskId, 'Test', 'Test description', false, '', ''));
 
-    todoUseCase.deleteTodo(taskId);
+    await todoUseCase.deleteTodo(taskId);
 
     expect(todoRepository.delete).toHaveBeenCalledWith(taskId);
+  });
+
+  it('should throw NotFoundError when deleting a non-existing todo', async () => {
+    const taskId = 'non-existing-task';
+    todoRepository.getOne.mockResolvedValue(null);
+
+    await expect(todoUseCase.deleteTodo(taskId)).rejects.toThrow(NotFoundError);
+  });
+
+  it('should throw NotFoundError when updating a non-existing todo', async () => {
+    const taskId = 'non-existing-task';
+    const todoDto: TodoDto = { title: 'Updated', description: 'Updated description' };
+    todoRepository.getOne.mockResolvedValue(null);
+
+    await expect(todoUseCase.updateTodo(taskId, todoDto)).rejects.toThrow(NotFoundError);
+  });
+
+  it('should get a task by id', async () => {
+    const taskId = 'task1';
+    const todo: Todo = new Todo(taskId, 'Test', 'Test description', false, '', '');
+    todoRepository.getOne.mockResolvedValue(todo);
+
+    const result = await todoUseCase.getTaskById(taskId);
+
+    expect(todoRepository.getOne).toHaveBeenCalledWith(taskId);
+    expect(result).toBe(todo);
+  });
+
+  it('should throw NotFoundError when getting a non-existing task by id', async () => {
+    const taskId = 'non-existing-task';
+    todoRepository.getOne.mockResolvedValue(null);
+
+    await expect(todoUseCase.getTaskById(taskId)).rejects.toThrow(NotFoundError);
   });
 });

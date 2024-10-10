@@ -69,8 +69,12 @@ export class TodoUseCase {
     return this.todoRepository.save(updateTodo);
   }
 
-  deleteTodo(taskId: string): void {
+  async deleteTodo(taskId: string): Promise<void> {
     console.log('deleteTodo', taskId);
+    const existingTodo = await this.todoRepository.getOne(taskId);
+    if (!existingTodo) {
+      throw new NotFoundError(`Task with ID ${taskId} not found`);
+    }
     this.todoRepository.delete(taskId);
   }
 }

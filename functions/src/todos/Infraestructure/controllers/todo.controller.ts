@@ -64,7 +64,16 @@ export class TodoController {
   }
 
   public async deleteCtrl({ params }: Request, res: Response) {
-    this.todoUseCase.deleteTodo(params.taskId);
-    res.send({ message: 'DELETED!' });
+    try {
+      await this.todoUseCase.deleteTodo(params.taskId);
+      res.send({ message: 'DELETED!' });
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        res.status(404).send({ error: 'Not found' });
+      } else {
+        console.log(err);
+        res.status(500).send({ error: 'An error occurred while updating the todo' });
+      }
+    }
   }
 }

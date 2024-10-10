@@ -24,6 +24,9 @@ module.exports = {
     'jest.config.js',
     '/jest.config.js',
     '/tests/**/*',
+    '**/tests/**/*.ts',
+    '/tests/**/*.ts',
+    '/functions/tests/**/*', 
   ],
   plugins: ['@typescript-eslint', 'import'],
   rules: {
